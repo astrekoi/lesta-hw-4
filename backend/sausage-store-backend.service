@@ -1,0 +1,26 @@
+[Unit]
+Description=Backend Service
+After=network.target
+Requires=network.target
+
+[Service]
+Type=simple
+User=backend
+Group=backend
+
+WorkingDirectory=/opt/sausage-store/bin
+EnvironmentFile=/opt/sausage-store/env.conf
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-16-openjdk-amd64
+Environment=REPORT_PATH=/var/sausage-store/reports
+Environment=LOG_PATH=/var/sausage-store/logs
+
+ExecStart=/bin/bash -c '${JAVA_HOME}/bin/java -jar /opt/sausage-store/bin/sausage-store-snapshot.jar'
+#Restart=on-failure
+#RestartSec=10s
+#StartLimitInterval=1min
+#StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
+
